@@ -5,3 +5,22 @@
 h1 {
     text-align: center;
 }
+
+.charts {
+    display: flex;
+    width: 50%;
+ }
+  
+.mychart {
+    flex: 1;
+    /* border: 2px solid blueviolet; */
+    margin: 10px;
+}
+  
+.mychart:first-child {
+    margin-right: 20px;
+}
+
+.filter-bar{
+    margin: auto;
+}
