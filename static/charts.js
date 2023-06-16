@@ -1,3 +1,7 @@
+const barChartElement = document.getElementById('bar_chart');
+const doughnutChartElement = document.getElementById('doughnut_chart');
+const polarAreaChartElement = document.getElementById('polar_area');
+
 const data = {
   labels: ["one", "two", "three", "four", "five", "six"],
   datasets: [{
@@ -37,8 +41,6 @@ const config = {
     },
 };
 
-new Chart(document.getElementById('testChart'), config);
-
 const doughnut_data = {
     labels: [
       'Red',
@@ -61,9 +63,6 @@ const doughnut_config = {
     type: 'doughnut',
     data: doughnut_data,
 };
-
-new Chart(document.getElementById("doughnut_chart"), doughnut_config);
-
 
 const polarData = {
     labels: [
@@ -92,6 +91,6 @@ const polarConfig = {
     options: {}
 };
 
-new Chart(document.getElementById("polar-area"), polarConfig);
-
-console.log("End");
+new Chart(barChartElement, config);
+new Chart(doughnutChartElement, doughnut_config);
+new Chart(polarAreaChartElement, polarConfig);
