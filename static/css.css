@@ -22,5 +22,10 @@ h1 {
 }
 
 .filter-bar{
+    width: 50%;
+    margin-left: 40%;
+}
+
+#bar_chart {
     margin: auto;
 }

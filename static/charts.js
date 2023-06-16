@@ -1,3 +1,8 @@
+const barChartElement = document.getElementById('bar_chart');
+const doughnutChartElement = document.getElementById('doughnut_chart');
+const polarAreaChartElement = document.getElementById('polar_area');
+const radarChartElement = document.getElementById('radar_chart');
+
 const data = {
   labels: ["one", "two", "three", "four", "five", "six"],
   datasets: [{
@@ -37,8 +42,6 @@ const config = {
     },
 };
 
-new Chart(document.getElementById('testChart'), config);
-
 const doughnut_data = {
     labels: [
       'Red',
@@ -61,9 +64,6 @@ const doughnut_config = {
     type: 'doughnut',
     data: doughnut_data,
 };
-
-new Chart(document.getElementById("doughnut_chart"), doughnut_config);
-
 
 const polarData = {
     labels: [
@@ -88,10 +88,78 @@ const polarData = {
 
 const polarConfig = {
     type: 'polarArea',
-    data: data,
+    data: polarData,
     options: {}
 };
 
-new Chart(document.getElementById("polar-area"), polarConfig);
+const radarData = {
+  labels: [
+    'Eating',
+    'Drinking',
+    'Sleeping',
+    'Designing',
+    'Coding',
+    'Cycling',
+    'Running'
+  ],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [65, 59, 90, 81, 56, 55, 40],
+    fill: true,
+    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    borderColor: 'rgb(255, 99, 132)',
+    pointBackgroundColor: 'rgb(255, 99, 132)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgb(255, 99, 132)'
+  }, {
+    label: 'My Second Dataset',
+    data: [28, 48, 40, 19, 96, 27, 100],
+    fill: true,
+    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    borderColor: 'rgb(54, 162, 235)',
+    pointBackgroundColor: 'rgb(54, 162, 235)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgb(54, 162, 235)'
+  }]
+};
 
-console.log("End");
+const radarConfig = {
+  type: 'radar',
+  data: radarData,
+  options: {
+    elements: {
+      line: {
+        borderWidth: 3
+      }
+    }
+  },
+};
+
+function addData(chart, label, data, color) {
+  chart.data.labels.push(label);
+  chart.data.datasets.forEach((dataset) => {
+    dataset.data.push(data);
+    dataset.backgroundColor.push(color);
+  })
+  chart.update();
+}
+
+function removeData(chart) {
+  chart.data.labels.pop();
+  chart.data.datasets.forEach((dataset) => {
+    dataset.data.pop();
+  });
+  chart.update();
+}
+
+function onClick() {
+  color = 'rgb(124, 252, 0';
+  addData(polarAreaChart, "green", 200, color);
+}
+
+barChart = new Chart(barChartElement, config);
+doughnutChart = new Chart(doughnutChartElement, doughnut_config);
+polarAreaChart = new Chart(polarAreaChartElement, polarConfig);
+radarChart = new Chart(radarChartElement, radarConfig);

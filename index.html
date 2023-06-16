@@ -17,26 +17,29 @@
         </div>
     </div>
 
-    <div class="filter-bar">
-        <input type="text" id="textsearch" name="textsearch" placeholder="Search">
-        <select name="brands" id="brands">
-            <option value="volvo">Volvo</option>
-            <option value="ford">Ford</option>
-        </select>
-        <select name="model" id="model">
-            <option value="modelt">Model T</option>
-            <option value="f150">F150</option>
-        </select>
-        <button type="button">Filter</button>
+    <div class="outer">
+        <div class="filter-bar">
+            <input type="text" id="textsearch" name="textsearch" placeholder="Search">
+            <select name="brands" id="brands">
+                <option value="volvo">Volvo</option>
+                <option value="ford">Ford</option>
+            </select>
+            <select name="model" id="model">
+                <option value="modelt">Model T</option>
+                <option value="f150">F150</option>
+            </select>
+            <button type="button" onclick="onClick()">Filter</button>
+        </div>
     </div>
 
     <div class="charts">
-        <canvas class="mychart" id="testChart"></canvas>
+        <canvas class="mychart" id="bar_chart"></canvas>
         <canvas class="mychart" id="doughnut_chart"></canvas>
     </div>
 
-    <div>
-        <canvas id="polar-area"></canvas>
+    <div class="charts">
+        <canvas class="mychart" id="polar_area"></canvas>
+        <canvas class="mychart" id="radar_chart"></canvas>
     </div>
 </body>
     <script type="text/javascript" src="static/charts.js"></script>
