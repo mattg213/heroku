@@ -36,7 +36,7 @@ To show what data was being scraped, this was the dictionary used to retrieved d
  }
 ````
 
-Once the "light scraper" was finished running, it retrieved just over 4,700 results. We then created a json object out of the list and stored it in [vehicles.json](../python/data/vehicles.json)
+Once the "light scraper" was finished running, it retrieved 4,777 results. We then created a json object out of the list and stored it in [vehicles.json](../python/data/vehicles.json)
 
 
 The next step in the process of gathering our data was to build our second scraper we will call the "deep scraper." The job of this scraper was to go through the list of vehicles we have stored in [vehicles.json](../python/data/vehicles.json) and open their links to retrieve a deeper level of data for each vehicle.
