@@ -87,7 +87,7 @@ item = {
 }  
 ```
 
-The loop used to scrape all the items was set to save a new json file every 250 items completed just so if the script somehow errored or stopped running, we wouldn't lose all the data gained. They were saved into json files with a naming scheme that looked like [0-250.json](../data/python/deep data/0-250.json)
+The loop used to scrape all the items was set to save a new json file every 250 items completed just so if the script somehow errored or stopped running, we wouldn't lose all the data gained. They were saved into json files with a naming scheme that looked like [a.json](../python/data/a.json)
 
 After the "deep scraper" completed its running cycle, the next step was to combine all the split files into one big json file to allow for easier reading and importing of data.
 
