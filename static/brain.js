@@ -1,6 +1,8 @@
+var baseApiURL = "http://127.0.0.1:5000/api"
+
 var modelData, makeData, cleanedData, titleData;
 
-d3.json("./python/data/info/makes.json").then(data => {
+d3.json(`${baseApiURL}/makes`).then(data => {
     makeData = data;
 
     makeData.unshift("All Makes");
@@ -8,8 +10,10 @@ d3.json("./python/data/info/makes.json").then(data => {
     populateMakes();
 });
 
-d3.json("./python/data/info/models.json").then(data => {
+d3.json(`${baseApiURL}/models`).then(data => {
     modelData = data;
+
+    console.log(modelData);
 
     populateModels();
 });

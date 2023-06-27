@@ -20,16 +20,8 @@
 
     <div class="outer">
         <div class="filter-bar">
-            <input type="text" id="textsearch" name="textsearch" placeholder="Search">
-            <select name="brands" id="brands">
-                <option value="volvo">Volvo</option>
-                <option value="ford">Ford</option>
-            </select>
-            <select name="model" id="model">
-                <option value="modelt">Model T</option>
-                <option value="f150">F150</option>
-            </select>
-            <button type="button" onclick="onClick()">Filter</button>
+            <select name="makes" id="makes" onchange="makeChanged()"></select>
+            <select name="models" id="models" onchange="modelChanged()"></select>
         </div>
     </div>
 
@@ -44,4 +36,5 @@
     </div>
 </body>
     <script type="text/javascript" src="static/charts.js"></script>
+    <script type="text/javascript" src="static/brain.js"></script>
 </html>

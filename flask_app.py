@@ -1,11 +1,14 @@
-from flask import Flask, json, jsonify
+from flask import Flask, json, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cars.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress warning
 db = SQLAlchemy(app)
+
+db.init_app(app)
 
 class Listing(db.Model):
     __tablename__ = 'Listings'
@@ -27,6 +30,25 @@ class Listing(db.Model):
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
     
+class Makes(db.Model):
+    __tablename__ = "Makes"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    
+class Models(db.Model):
+    __tablename__ = "Models"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    make_id = db.Column(db.Integer, foreign_key=True)
+    name = db.Column(db.String)
+    
+class Transmissions(db.Model):
+    __tablename__ = "Transmissions"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String)
+    
 @app.route('/listings', methods=['GET'])
 def get_listings():
     listings = Listing.query.limit(5).all()  # Get the first 5 listings
@@ -38,25 +60,36 @@ if __name__ == '__main__':
     
 @app.route('/')
 def MainPage():
-    html = '''
-        <!DOCTYPE html>
-        <html lang="en">
-        
-        <body>
-        <ul>
-            <li><a href="http://127.0.0.1:5000/api/test">Test</a></li>
-        </ul>
-        </body>
-    '''
-    
-    return html
+    return render_template('index.html')
 
 @app.route('/api/models')
 def ReturnModels():
     
-    models = ['Model T', "Model 3", "F-Type", "RC 350"]
+    f = open('./python/data/info/models.json')
+    
+    models = json.load(f)
+    
+    f.close()
     
     response = jsonify(models)
     response.status_code = 200
     
     return response
+
+@app.route('/api/makes')
+def ReturnMakes():
+    
+    f = open('./python/data/info/makes.json')
+    
+    makes = json.load(f)
+    
+    f.close()
+    
+    response = jsonify(makes)
+    response.status_code = 200
+    
+    return response
+
+@app.route('./api/titles/<make><model>')
+def get_titles(make, model):
+    
