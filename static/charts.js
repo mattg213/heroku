@@ -163,24 +163,3 @@ barChart = new Chart(barChartElement, config);
 doughnutChart = new Chart(doughnutChartElement, doughnut_config);
 polarAreaChart = new Chart(polarAreaChartElement, polarConfig);
 radarChart = new Chart(radarChartElement, radarConfig);
-
-var url = "http://127.0.0.1:5000/api/models"
-
-d3.json(url, data => {
-  console.log(data);
-})
-
-var modelDropDown = d3.select("#model")
-      .append("select");
-
-var options = modelDropDown.selectAll("option")
-      .data(["Test", "test2"])
-      .enter()
-      .append("option");
-
-options.text(d => {
-  return d.NAME;
-})
-.attr("value", d => {
-  return d.NAME;
-});
