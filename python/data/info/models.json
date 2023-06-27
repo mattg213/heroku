@@ -127,8 +127,8 @@
         "Transit-350",
         "E-350 Super Duty",
         "Econoline Van",
-        "F-550",
         "Utility Police Interceptor",
+        "F-550",
         "F-450",
         "EcoSport",
         "Police Interceptor",
@@ -339,7 +339,6 @@
         "GLC63 AMG",
         "GLE",
         "GLS",
-        "GLS450",
         "G63 AMG",
         "CLS-Class",
         "GLA250",
@@ -402,8 +401,7 @@
         "S80",
         "S60",
         "C70",
-        "S90",
-        "XC60"
+        "S90"
     ],
     "Ram": [
         "1500",

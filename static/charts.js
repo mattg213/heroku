@@ -42,6 +42,13 @@ const config = {
     },
 };
 
+
+function updateDoughnut(data) {
+  doughnutChart.destroy();
+  doughnut_config['data'] = data;
+  doughnutChart = new Chart(doughnutChartElement, doughnut_config);
+}
+
 const doughnut_data = {
     labels: [
       'Red',
@@ -60,9 +67,9 @@ const doughnut_data = {
     }]
 };
 
-const doughnut_config = {
+var doughnut_config = {
     type: 'doughnut',
-    data: doughnut_data,
+    data: {},
 };
 
 const polarData = {
@@ -154,12 +161,7 @@ function removeData(chart) {
   chart.update();
 }
 
-function onClick() {
-  color = 'rgb(124, 252, 0';
-  addData(polarAreaChart, "green", 200, color);
-}
-
 barChart = new Chart(barChartElement, config);
-doughnutChart = new Chart(doughnutChartElement, doughnut_config);
+doughnutChart = new Chart();
 polarAreaChart = new Chart(polarAreaChartElement, polarConfig);
 radarChart = new Chart(radarChartElement, radarConfig);
