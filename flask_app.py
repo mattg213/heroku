@@ -92,13 +92,13 @@ def get_titles(make, model):
         counts = (
             db.session.query(Listing.vehicle_title, db.func.count(Listing.vehicle_title))
             .group_by(Listing.vehicle_title)
-            .where(Listing.make == make)
+                .where(Listing.make == make)
         )
     else:
         counts = (
             db.session.query(Listing.vehicle_title, db.func.count(Listing.vehicle_title))
             .group_by(Listing.vehicle_title)
-            .filter(Listing.make == make, Listing.model == model)
+                .filter(Listing.make == make, Listing.model == model)
         )
     
     my_dict = {}
