@@ -1,5 +1,5 @@
-__pychache__/*
-python/__pychache__/*
+__pycache__
+python/__pychache__
 python/.ipynb_checkpoints
-env/*
-instance/*
+env
+instance
