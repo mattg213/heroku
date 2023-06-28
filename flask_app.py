@@ -1,23 +1,30 @@
 from flask import Flask, json, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
 import json
+import os.path
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cars.db'
+
+db = SQLAlchemy()
+
+db_name = 'cars.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, db_name)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress warning
-db = SQLAlchemy(app)
 
 db.init_app(app)
 
 class Listing(db.Model):
-    __tablename__ = 'Listings'
+    __tablename__ = "listings"
 
     id = db.Column(db.Integer, primary_key=True)
-    model_id = db.Column(db.Integer)
+    model = db.Column(db.String)
+    make = db.Column(db.String)
     year = db.Column(db.Integer)
     mileage = db.Column(db.Integer)
-    transmission_id = db.Column(db.Integer)
+    transmission = db.Column(db.String)
     fuel_type = db.Column(db.String)
     engine = db.Column(db.String)
     body_type = db.Column(db.String)
@@ -29,25 +36,6 @@ class Listing(db.Model):
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-    
-class Makes(db.Model):
-    __tablename__ = "Makes"
-    
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    
-class Models(db.Model):
-    __tablename__ = "Models"
-    
-    id = db.Column(db.Integer, primary_key=True)
-    make_id = db.Column(db.Integer, foreign_key=True)
-    name = db.Column(db.String)
-    
-class Transmissions(db.Model):
-    __tablename__ = "Transmissions"
-    
-    id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String)
     
 @app.route('/listings', methods=['GET'])
 def get_listings():
@@ -90,6 +78,149 @@ def ReturnMakes():
     
     return response
 
-@app.route('./api/titles/<make><model>')
+@app.route('/api/titles/<make>/<model>')
 def get_titles(make, model):
+    counts = ()
     
+    if make == 'all' and model == 'all':
+        counts = (
+            db.session.query(Listing.vehicle_title, db.func.count(Listing.vehicle_title))
+            .group_by(Listing.vehicle_title)
+            .all()
+        )
+    elif model == 'all':
+        counts = (
+            db.session.query(Listing.vehicle_title, db.func.count(Listing.vehicle_title))
+            .group_by(Listing.vehicle_title)
+            .where(Listing.make == make)
+        )
+    else:
+        counts = (
+            db.session.query(Listing.vehicle_title, db.func.count(Listing.vehicle_title))
+            .group_by(Listing.vehicle_title)
+            .filter(Listing.make == make, Listing.model == model)
+        )
+    
+    my_dict = {}
+    
+    for type, count in counts:
+        my_dict[type] = count
+        print(type, count)
+        
+    response = jsonify(my_dict) 
+    response.status_code = 200
+    
+    return response
+
+@app.route('/api/years/<make>/<model>')
+def get_years(make, model):
+    counts = ()
+    
+    if make == 'all' and model == 'all':
+        counts = (
+            db.session.query(Listing.year, db.func.count(Listing.year))
+            .group_by(Listing.year)
+            .all()
+        )
+    elif model == 'all':
+        counts = (
+            db.session.query(Listing.year, db.func.count(Listing.year))
+            .group_by(Listing.year)
+            .where(Listing.make == make)
+        )
+    else:
+        counts = (
+            db.session.query(Listing.year, db.func.count(Listing.year))
+            .group_by(Listing.year)
+            .filter(Listing.make == make, Listing.model == model)
+        )
+    
+    my_dict = {}
+    
+    for type, count in counts:
+        my_dict[type] = count
+        print(type, count)
+        
+    response = jsonify(my_dict) 
+    response.status_code = 200
+    
+    return response
+
+@app.route('/api/scatterdata/<make>/<model>')
+def get_scatter_data(make, model):
+    query = ()
+    
+    if make == 'all' and model == 'all':
+        query = (
+            db.session.query(Listing.make, Listing.model, Listing.mileage, Listing.price).distinct(Listing.price)
+            .all()
+        )
+    elif model == 'all':
+        query = (
+            db.session.query(Listing.make, Listing.model, Listing.mileage, Listing.price).distinct(Listing.price)
+            .where(Listing.make == make)
+        )
+    else:
+        query = (
+            db.session.query(Listing.make, Listing.model, Listing.mileage, Listing.price).distinct(Listing.price)
+            .filter(Listing.make == make, Listing.model == model)
+        )
+    
+    my_dict = {}
+    
+    for make, model, mileage, price in query:
+        car = {
+            "model" : model,
+            "mileage" : mileage,
+            "price" : price
+        }
+        if make in my_dict:
+            my_dict[make].append(car)
+        else:
+            my_dict[make] = []
+            my_dict[make].append(car)
+        
+        
+        
+    response = jsonify(my_dict) 
+    response.status_code = 200
+    
+    return response
+
+@app.route('/api/piedata/<make>/<model>')
+def get_pie_data(make, model):
+    query = ()
+    
+    if make == 'all' and model == 'all':
+        query = (
+            db.session.query(Listing.transmission, db.func.count(Listing.transmission))
+            .group_by(Listing.transmission)
+            .filter((Listing.transmission == 'Automatic') | (Listing.transmission == 'Manual'))
+            .all()
+        )
+    elif model == 'all':
+        query = (
+            db.session.query(Listing.transmission, db.func.count(Listing.transmission))
+            .group_by(Listing.transmission)
+            .where(Listing.make == make)
+            .filter((Listing.transmission == 'Automatic') | (Listing.transmission == 'Manual'))
+        )
+    else:
+        query = (
+            db.session.query(Listing.transmission, db.func.count(Listing.transmission))
+            .group_by(Listing.transmission)
+            .filter(Listing.make == make, Listing.model == model)
+            .filter((Listing.transmission == 'Automatic') | (Listing.transmission == 'Manual'))
+        )
+    
+    my_dict = {}
+    
+    for transmission, count in query:
+        my_dict[transmission] = count
+        
+        
+        
+    response = jsonify(my_dict) 
+    response.status_code = 200
+    
+    return response
