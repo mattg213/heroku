@@ -1,140 +1,112 @@
 const barChartElement = document.getElementById('bar_chart');
 const doughnutChartElement = document.getElementById('doughnut_chart');
-const polarAreaChartElement = document.getElementById('polar_area');
-const radarChartElement = document.getElementById('radar_chart');
+const scatterChartElement = document.getElementById('scatter_chart');
+const pieChartElement = document.getElementById('pie_chart');
 
-const data = {
-  labels: ["one", "two", "three", "four", "five", "six"],
-  datasets: [{
-    label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(201, 203, 207, 0.2)'
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)'
-    ],
-    borderWidth: 1
-  }]
+
+function updateDoughnut(data) {
+  doughnutChart.destroy();
+  doughnut_config['data'] = data;
+  doughnutChart = new Chart(doughnutChartElement, doughnut_config);
+}
+
+function updateBarChart(data){
+  barChart.destroy();
+  config['data'] = data;
+  barChart = new Chart(barChartElement, config);
+}
+
+function updateScatterChart(data) {
+  scatterChart.destroy();
+  scatter_config['data'] = data;
+  scatterChart = new Chart(scatterChartElement, scatter_config);
+}
+
+function updatePieChart(data) {
+  pieChart.destroy();
+  pieChart_config['data'] = data;
+  pieChart = new Chart(pieChartElement, pieChart_config);
+}
+
+const pieChart_config = {
+  type: 'pie',
+  data: {},
+  options: {
+    plugins:{
+      title: {
+        display: true,
+        text: "Transmission Types"
+      }
+    }
+  }
 };
 
-const config = {
-    type: 'bar',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+const scatter_config = {
+  type: 'scatter',
+  data: {},
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: 'Mileage vs. Price'
       }
     },
-};
-
-const doughnut_data = {
-    labels: [
-      'Red',
-      'Blue',
-      'Yellow'
-    ],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [300, 50, 100],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-      ],
-      hoverOffset: 4
-    }]
-};
-
-const doughnut_config = {
-    type: 'doughnut',
-    data: doughnut_data,
-};
-
-const polarData = {
-    labels: [
-      'Red',
-      'Green',
-      'Yellow',
-      'Grey',
-      'Blue'
-    ],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [11, 16, 7, 3, 14],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(75, 192, 192)',
-        'rgb(255, 205, 86)',
-        'rgb(201, 203, 207)',
-        'rgb(54, 162, 235)'
-      ]
-    }]
-};
-
-const polarConfig = {
-    type: 'polarArea',
-    data: polarData,
-    options: {}
-};
-
-const radarData = {
-  labels: [
-    'Eating',
-    'Drinking',
-    'Sleeping',
-    'Designing',
-    'Coding',
-    'Cycling',
-    'Running'
-  ],
-  datasets: [{
-    label: 'My First Dataset',
-    data: [65, 59, 90, 81, 56, 55, 40],
-    fill: true,
-    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    borderColor: 'rgb(255, 99, 132)',
-    pointBackgroundColor: 'rgb(255, 99, 132)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgb(255, 99, 132)'
-  }, {
-    label: 'My Second Dataset',
-    data: [28, 48, 40, 19, 96, 27, 100],
-    fill: true,
-    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-    borderColor: 'rgb(54, 162, 235)',
-    pointBackgroundColor: 'rgb(54, 162, 235)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgb(54, 162, 235)'
-  }]
-};
-
-const radarConfig = {
-  type: 'radar',
-  data: radarData,
-  options: {
-    elements: {
-      line: {
-        borderWidth: 3
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Price"
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Mileage"
+        }
       }
     }
   },
+};
+
+const config = {
+  type: 'bar',
+  data: {},
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Number of Cars Sold"
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Year"
+        }
+      }
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: "Number of Cars Sold By Model Year"
+      },
+      legend: {
+        display: false,
+      }
+    }
+  },
+};
+
+var doughnut_config = {
+    type: 'doughnut',
+    data: {},
 };
 
 function addData(chart, label, data, color) {
@@ -154,12 +126,7 @@ function removeData(chart) {
   chart.update();
 }
 
-function onClick() {
-  color = 'rgb(124, 252, 0';
-  addData(polarAreaChart, "green", 200, color);
-}
-
-barChart = new Chart(barChartElement, config);
-doughnutChart = new Chart(doughnutChartElement, doughnut_config);
-polarAreaChart = new Chart(polarAreaChartElement, polarConfig);
-radarChart = new Chart(radarChartElement, radarConfig);
+barChart = new Chart();
+doughnutChart = new Chart();
+scatterChart = new Chart();
+pieChart = new Chart();
